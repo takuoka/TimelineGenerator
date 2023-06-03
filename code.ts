@@ -1,7 +1,8 @@
-async function createTimeline(startDate: Date, endDate: Date) {
+async function createTimeline(startDate: Date, endDate: Date, startX: number, startY: number) {
+  console.log("createTimeline3");
 
   const nodes: SceneNode[] = [];
-  let xPosition = 0;
+  let xPosition = startX;
 
   await figma.loadFontAsync({ family: "Inter", style: "Medium" });
   await figma.loadFontAsync({ family: "Inter", style: "Bold" })
@@ -17,19 +18,19 @@ async function createTimeline(startDate: Date, endDate: Date) {
 
     const line = figma.createLine();
     line.x = xPosition;
-    line.y = lineHeigt;
+    line.y = startY + lineHeigt;
     line.rotation = 90;
-    line.resize(lineHeigt, 0)    
-    const isFirstDayOfWeek = dayOfWeek === 1;
-    line.strokeWeight = isFirstDayOfWeek ? 2 : 1;
-    line.strokes = [{type: 'SOLID', color: {r: 0.5, g: 0.5, b: 0.5}}];
+    line.resize(lineHeigt, 0)
 
+    // Make the stroke weight larger at the beginning of each week
+    line.strokeWeight = dayOfWeek === 1 ? 2 : 1;
+    line.strokes = [{type: 'SOLID', color: {r: 0.5, g: 0.5, b: 0.5}}];
 
     const weekDayText = figma.createText();
     weekDayText.characters = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day.getDay()];
     weekDayText.resize(textWidth, 1);
     weekDayText.x = xPosition;
-    weekDayText.y = 20;
+    weekDayText.y = startY + 20;
     weekDayText.fontSize = 16;
     weekDayText.fills = [{type: 'SOLID', color: {r: 0.5, g: 0.5, b: 0.5}}];
     weekDayText.textAlignHorizontal = 'CENTER';
@@ -39,7 +40,7 @@ async function createTimeline(startDate: Date, endDate: Date) {
     dateText.characters = day.toLocaleDateString().slice(0, -5).replace(/(^|\/)0+/g, "$1");
     dateText.resize(textWidth, 1);
     dateText.x = xPosition;
-    dateText.y = 44;
+    dateText.y = startY + 44;
     dateText.fontSize = 24;
     dateText.textAlignHorizontal = 'CENTER';
     dateText.fontName = { family: "Inter", style: "Bold" };
@@ -64,7 +65,9 @@ async function main() {
       const startDate = new Date(msg.startDate);
       const endDate = new Date(msg.endDate);
 
-      const nodes = await createTimeline(startDate, endDate);
+      const {x, y} = figma.viewport.center;
+
+      const nodes = await createTimeline(startDate, endDate, x, y);
 
       figma.currentPage.selection = nodes;
       figma.viewport.scrollAndZoomIntoView(nodes);
