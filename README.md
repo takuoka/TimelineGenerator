@@ -1,5 +1,5 @@
 
-This Plugin in figma community: https://www.figma.com/community/plugin/1246692373990840162
+in figma community: https://www.figma.com/community/plugin/1246692373990840162
 
 # Screenshot
 ![file cover - 1](https://github.com/takuoka/TimelineGenerator/assets/2075801/fc68a16f-25e2-4fca-a856-e307e6e372e9)
