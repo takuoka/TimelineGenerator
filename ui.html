@@ -1,0 +1,17 @@
+<h2>Daily Planner</h2>
+<p>Start Date: <input id="start-date" type="date" value="2022-12-01"></p>
+<p>End Date: <input id="end-date" type="date" value="2023-02-15"></p>
+<button id="create">Create</button>
+
+<script>
+document.getElementById('create').onclick = () => {
+  const startDate = document.getElementById('start-date').value;// Uncaught TypeError: Cannot read properties of null (reading 'value')
+  const endDate = document.getElementById('end-date').value;
+
+  parent.postMessage({ pluginMessage: {
+      type: 'create-timeline',
+      startDate: startDate,
+      endDate: endDate
+    } }, '*')
+}
+</script>
