@@ -1,9 +1,9 @@
 async function createTimeline(startDate: Date, endDate: Date, startX: number, startY: number, skipWeekends: Boolean) {
-  console.log("createTimeline3");
 
   const nodes: SceneNode[] = [];
   let xPosition = startX;
 
+  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
   await figma.loadFontAsync({ family: "Inter", style: "Medium" });
   await figma.loadFontAsync({ family: "Inter", style: "Bold" })
 
