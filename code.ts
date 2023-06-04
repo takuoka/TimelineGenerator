@@ -1,4 +1,4 @@
-async function createTimeline(startDate: Date, endDate: Date, startX: number, startY: number) {
+async function createTimeline(startDate: Date, endDate: Date, startX: number, startY: number, skipWeekends: Boolean) {
   console.log("createTimeline3");
 
   const nodes: SceneNode[] = [];
@@ -11,10 +11,14 @@ async function createTimeline(startDate: Date, endDate: Date, startX: number, st
     const dayOfWeek = day.getDay();
 
     // Ignore weekends
-    if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+    if (skipWeekends && isWeekend) continue;
 
     const lineHeigt = 1000
     const textWidth = 120;
+    const isMonday = dayOfWeek === 1;
+    const grayColor = {r: 0.5, g: 0.5, b: 0.5};
+    const pinkColor = {r: 0.7, g: 0.5, b: 0.5};
 
     const line = figma.createLine();
     line.x = xPosition;
@@ -23,8 +27,8 @@ async function createTimeline(startDate: Date, endDate: Date, startX: number, st
     line.resize(lineHeigt, 0)
 
     // Make the stroke weight larger at the beginning of each week
-    line.strokeWeight = dayOfWeek === 1 ? 2 : 1;
-    line.strokes = [{type: 'SOLID', color: {r: 0.5, g: 0.5, b: 0.5}}];
+    line.strokeWeight = isMonday ? 2 : 1;
+    line.strokes = [{type: 'SOLID', color: grayColor}];
 
     const weekDayText = figma.createText();
     weekDayText.characters = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day.getDay()];
@@ -32,7 +36,8 @@ async function createTimeline(startDate: Date, endDate: Date, startX: number, st
     weekDayText.x = xPosition;
     weekDayText.y = startY + 20;
     weekDayText.fontSize = 16;
-    weekDayText.fills = [{type: 'SOLID', color: {r: 0.5, g: 0.5, b: 0.5}}];
+    weekDayText.fills = [{type: 'SOLID', color: grayColor}];
+    if (isWeekend) { weekDayText.fills = [{type: 'SOLID', color: pinkColor}]; }
     weekDayText.textAlignHorizontal = 'CENTER';
     figma.currentPage.appendChild(weekDayText);
 
@@ -44,7 +49,8 @@ async function createTimeline(startDate: Date, endDate: Date, startX: number, st
     dateText.fontSize = 24;
     dateText.textAlignHorizontal = 'CENTER';
     dateText.fontName = { family: "Inter", style: "Bold" };
-    dateText.fills = [{type: 'SOLID', color: {r: 0.5, g: 0.5, b: 0.5}}];
+    dateText.fills = [{type: 'SOLID', color: grayColor}];
+    if (isWeekend) { dateText.fills = [{type: 'SOLID', color: pinkColor}]; }
     figma.currentPage.appendChild(dateText);
 
     nodes.push(line, dateText, weekDayText);
@@ -58,16 +64,16 @@ async function createTimeline(startDate: Date, endDate: Date, startX: number, st
 
 async function main() {
 
-  figma.showUI(__html__);
+  figma.showUI(__html__, { width: 250, height: 220 });
 
   figma.ui.onmessage = async msg => {
     if (msg.type === 'create-timeline') {
       const startDate = new Date(msg.startDate);
       const endDate = new Date(msg.endDate);
-
+      const skipWeekends: Boolean = msg.skipWeekends;
       const {x, y} = figma.viewport.center;
 
-      const nodes = await createTimeline(startDate, endDate, x, y);
+      const nodes = await createTimeline(startDate, endDate, x, y, skipWeekends);
 
       figma.currentPage.selection = nodes;
       figma.viewport.scrollAndZoomIntoView(nodes);
