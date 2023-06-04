@@ -1,8 +1,15 @@
+# Daily Planner for FigJam / Figma
 
-in figma community: https://www.figma.com/community/plugin/1246692373990840162
+<img width="200" alt="スクリーンショット 2023-06-04 11 44 02" src="https://github.com/takuoka/TimelineGenerator/assets/2075801/71db6c3b-2f8a-4266-9965-7307cc35bf8c">
+
+
+### figma community
+https://www.figma.com/community/plugin/1246692373990840162
+
+
 
 # Screenshot
-![file cover - 1](https://github.com/takuoka/TimelineGenerator/assets/2075801/fc68a16f-25e2-4fca-a856-e307e6e372e9)
+![file cover - 1](https://github.com/takuoka/TimelineGenerator/assets/2075801/d6696217-3a39-4d95-b33c-e559119fb69f)
 
 
 
