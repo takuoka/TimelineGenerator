@@ -1,17 +1,52 @@
 <h2>Daily Planner</h2>
-<p>Start Date: <input id="start-date" type="date" value="2022-12-01"></p>
-<p>End Date: <input id="end-date" type="date" value="2023-02-15"></p>
+
+<p>Start Date: <input id="start-date" type="date"></p>
+<p>End Date: <input id="end-date" type="date"></p>
 <button id="create">Create</button>
 
 <script>
-document.getElementById('create').onclick = () => {
-  const startDate = document.getElementById('start-date').value;// Uncaught TypeError: Cannot read properties of null (reading 'value')
+// Functions for date manipulation
+function formatDate(date) {
+  const yyyy = date.getFullYear();
+  let mm = date.getMonth() + 1; // getMonth() is zero-based
+  let dd = date.getDate();
+
+  // Convert date to YYYY-MM-DD format
+  if (mm < 10) mm = '0' + mm;
+  if (dd < 10) dd = '0' + dd;
+  return yyyy + '-' + mm + '-' + dd;
+}
+
+function getDateToday() {
+  return new Date();
+}
+
+function getDateOneMonthFromNow() {
+  const oneMonthFromNow = new Date();
+  oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+  return oneMonthFromNow;
+}
+
+// Function for initializing date input fields
+function initializeDateInputs() {
+  document.getElementById('start-date').value = formatDate(getDateToday());
+  document.getElementById('end-date').value = formatDate(getDateOneMonthFromNow());
+}
+
+// Event handlers
+window.onload = function() {
+  initializeDateInputs();
+};
+
+document.getElementById('create').onclick = function() {
+  const startDate = document.getElementById('start-date').value;
   const endDate = document.getElementById('end-date').value;
 
   parent.postMessage({ pluginMessage: {
       type: 'create-timeline',
       startDate: startDate,
       endDate: endDate
-    } }, '*')
-}
+    } }, '*');
+};
+
 </script>
