@@ -8,6 +8,8 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
+      padding: 16px;
+      color: #333;
     }
 
     input, #create {
@@ -26,14 +28,20 @@
     #create:hover {
       background-color: #6d48d8;
     }
+
+        /* New styles for the checkbox label */
+    label {
+      font-size: 0.8em;
+      color: #666;
+    }
   </style>
 </head>
 
 <body>
   <h2>Daily Planner</h2>
-  <p>Start Date: <input id="start-date" type="date"></p>
-  <p>End Date: <input id="end-date" type="date"></p>
-  <p>Skip Weekends: <input id="skip-weekends" type="checkbox" checked></p>
+  <p>Start: <input id="start-date" type="date"></p>
+  <p>End: <input id="end-date" type="date"></p>
+  <p><input id="skip-weekends" type="checkbox" checked><label for="skip-weekends">Skip Weekends</label></p>
   <button id="create">Create</button>
 
 

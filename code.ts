@@ -64,7 +64,7 @@ async function createTimeline(startDate: Date, endDate: Date, startX: number, st
 
 async function main() {
 
-  figma.showUI(__html__, { width: 250, height: 220 });
+  figma.showUI(__html__, { width: 240, height: 244 });
 
   figma.ui.onmessage = async msg => {
     if (msg.type === 'create-timeline') {
